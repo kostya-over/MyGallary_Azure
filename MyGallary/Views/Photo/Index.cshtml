@@ -1,0 +1,49 @@
+﻿@model List<Photo>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row mt-2 mb-3">
+  <div class="col-lg-12 mx-auto">
+    <div class="text-white p-5 shadow-sm banner">
+        <h1 class="display-4">Personal photo gallery</h1>
+        <p class="lead">Welcome to my gallery! I hope you'll enjoy it:)</p>
+        <p class="lead"><a href="https://www.instagram.com/kostya_over/" class="text-reset"> 
+            <i class="bi bi-instagram"></i></a> 
+        </p>
+        <form class="d-flex" role="search" action="@Url.Action("Index")">
+            <button type="submit"><i class="bi bi-search"></i></button>
+            <input class="form-control me-2" name="searchQuery" type="search" placeholder="Enter some tags ..." aria-label="Search"
+                   value="@ViewData["Search"]">
+        </form>
+    </div>
+  </div>
+</div>
+
+<a asp-controller="Photo" asp-action="AddPhoto" class="btn btn-primary mb-2 font"><i class="bi bi-cloud-plus"></i></a>
+
+<div class="row">
+    @if (Model.Count > 0)
+    {
+        @foreach (var photo in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                <div class="bg-white shadow-sm cardImg"><img src="@photo.ImageUrl" alt="@photo.Id" class="img-fluid card-img-top">
+                    <div class="p-4">
+                        <h6><a asp-controller="Photo" asp-action="ViewPhoto" asp-route-id="@photo.Id" class="text-dark">@photo.Name</a></h6>
+                        <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+                            <p class="small mb-0"><i class="bi bi-image-fill"></i><span class="type-label font-weight-bold">@photo.Type.ToUpper()</span></p>
+                            <a asp-controller="Photo" asp-action="DeleteBlob" asp-route-id="@photo.Id" class="btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No photos phound</p>
+    }
+    
+</div>
